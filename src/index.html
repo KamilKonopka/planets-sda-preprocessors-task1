@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Starter</title>
+    <title>Planets</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
   </head>
   <body>
-    <div>Hello, world!</div>
+    <div class="planets-wrapper">
+      <div class="sun"></div>
+      <div class="planet mercury"></div>
+      <div class="planet venus"></div>
+      <div class="planet earth"></div>
+      <div class="planet mars"></div>
+      <div class="planet jupiter"></div>
+      <div class="planet saturn"></div>
+      <div class="planet uranus"></div>
+      <div class="planet neptune"></div>
+    </div>
+    <button>Stop!</button>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
   </body>
 </html>
