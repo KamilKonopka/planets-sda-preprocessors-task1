@@ -29,4 +29,7 @@ function onClick() {
         console.log(`${getAnimationName(planet)} is ${planetState}`);
     });
 }
+import _ from 'lodash';
+console.log("hello, world");
+
 

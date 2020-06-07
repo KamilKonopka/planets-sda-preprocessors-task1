@@ -4,8 +4,8 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const devMode = process.env.NODE_ENV === 'development';
 const port = process.env.PORT || 4200;
@@ -22,15 +22,14 @@ module.exports = {
     },
     optimization: {
         minimizer: [
-            new OptimizeCSSAssetsPlugin({})]
+            new OptimizeCSSAssetsPlugin({}),
+            new UglifyJsPlugin({
+                test: /\.js($|\?)/i,
+            })
+        ]
     },
     plugins: [
-        new MinifyPlugin({}, {
-            test: /\.js($|\?)/i,
-            include: path.resolve(__dirname, 'src'),
-            sourceMap: false,
-        }),
-        new CleanWebpackPlugin({ dry: true, verbose: true}),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: false,
@@ -57,14 +56,16 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: "babel-loader",
-                options: {
-                    presets: ['@babel/preset-env'],
-                    plugins: [
-                        '@babel/plugin-proposal-object-rest-spread',
-                        '@babel/plugin-proposal-class-properties',
-                    ],
-                },
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins: [
+                            '@babel/plugin-proposal-object-rest-spread',
+                            '@babel/plugin-proposal-class-properties',
+                        ],
+                    }
+                }
             },
             {
                 test: /\.(scss|css)$/,
